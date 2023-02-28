@@ -1,31 +1,17 @@
+using Application.Activities;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using MediatR;
+using System.Reflection;
+using Application.Core;
+using API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-
-
-
-var connection = "Server=KELVIS\\DEVOPS;Database=dbActivities;User Id=devops;Password=Windows2020;TrustServerCertificate=True;MultipleActiveResultSets=True;";
-
-
-builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(connection));
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("CorsPolicy", policy =>
-    {
-        policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
-    });
-});
-
+builder.Services.AddApplicationServices(builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -36,15 +22,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("CorsPolicy");
-
-
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
-
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
@@ -60,8 +40,4 @@ catch (Exception)
     var logger = services.GetRequiredService<ILogger<Program>>();
     logger.LogError("An error occurred during migration");
 }
-
-
-
-
 app.Run();
