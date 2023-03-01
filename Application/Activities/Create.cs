@@ -16,7 +16,6 @@ namespace Application.Activities
             public Activity Activity { get; set; }
         }
 
-
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
@@ -31,11 +30,7 @@ namespace Application.Activities
                 await _context.SaveChangesAsync();
                 return Unit.Value;
 
-            }
-
-
-
-            
+            }          
         }
     }
 }

@@ -36,6 +36,5 @@ namespace Application.Activities
                 return Unit.Value;
             }
         }
-
     }
 }

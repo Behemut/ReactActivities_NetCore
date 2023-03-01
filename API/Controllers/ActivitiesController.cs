@@ -9,8 +9,6 @@ namespace API.Controllers
 {
     public class ActivitiesController : BaseApiController
     {
-        
-     
         //Get all activities
         [HttpGet]
         public async Task<ActionResult<List<Activity>>> GetActivities()
@@ -44,8 +42,5 @@ namespace API.Controllers
         {
             return Ok(await Mediator.Send(new Delete.Command { Id = id }));
         }
-
-
-
     }
 }
