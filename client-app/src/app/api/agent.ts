@@ -9,9 +9,7 @@ const sleep = (delay: number) => {
 
 axios.defaults.baseURL = 'https://localhost:7194/api';
 
-
 const responseBody = <T> (response: AxiosResponse<T>) => response.data;
-
 
 axios.interceptors.response.use(async response => {
     try {
@@ -38,6 +36,6 @@ const Activities = {
     delete: (id: string) => requests.del<void>(`/activities/${id}`)
 }
 
-const agent = { Activities }
+const agent = { Activities };
 
 export default agent;
