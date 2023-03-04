@@ -25,11 +25,11 @@ namespace API.Extensions
             {
                 opt.AddPolicy("CorsPolicy", policy =>
                 {
-                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000");
+                    //allow cors origins any origin
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("*");
                 });
             });
            
-
             services.AddMediatR(typeof(List.Handler).Assembly);
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
