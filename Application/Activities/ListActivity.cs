@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using Application.Core;
+using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -11,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace Application.Activities
 {
-    public class List
+    public class ListActivity
     {
-        public class Query : IRequest<List<Activity>> { }
+        public class Query : IRequest< ResultApi<List<Activity>>> { }
 
-        public class Handler : IRequestHandler<Query, List<Activity>>
+        public class Handler : IRequestHandler<Query,ResultApi<List<Activity>>>
         {
             private readonly DataContext _context;
            // private readonly ILogger<List> _logger;
@@ -24,9 +25,10 @@ namespace Application.Activities
                 _context = context;
                
             }
-            public async Task<List<Activity>> Handle(Query request, CancellationToken cancellationToken)
-            {  
-                return await _context.Activities.ToListAsync();
+            public async Task< ResultApi<List<Activity>>> Handle(Query request, CancellationToken cancellationToken)
+            {
+                //return await _context.Activities.ToListAsync();
+                return ResultApi<List<Activity>>.Success(await _context.Activities.ToListAsync());
             }
         }
     }

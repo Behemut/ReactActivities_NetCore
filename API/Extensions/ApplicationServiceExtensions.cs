@@ -5,6 +5,8 @@ using Application;
 using Microsoft.EntityFrameworkCore;
 using Application.Activities;
 using Application.Core;
+using FluentValidation.AspNetCore;
+using FluentValidation;
 
 namespace API.Extensions
 {
@@ -30,8 +32,12 @@ namespace API.Extensions
                 });
             });
            
-            services.AddMediatR(typeof(List.Handler).Assembly);
+            services.AddMediatR(typeof(ListActivity.Handler).Assembly);
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+
+            //Fluent Validation
+            services.AddFluentValidationAutoValidation();
+            services.AddValidatorsFromAssemblyContaining<CreateActivity>();
 
             return services;
         }
