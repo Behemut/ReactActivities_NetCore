@@ -1,7 +1,8 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { Activity } from "../models/activity";
 import agent from "../api/agent";
-import {v4 as uuid} from 'uuid';
+import { format } from "date-fns";
+
 
 export default class ActivityStore {
     //States for the class
@@ -18,7 +19,7 @@ export default class ActivityStore {
     get activitiesByDate() {
         //return sort by date
         return Array.from(this.activityRegistry.values()).sort((a, b) =>
-            Date.parse(a.date) - Date.parse(b.date)
+            a.date!.getTime() - b.date!.getTime()
         )
     }
 
@@ -26,7 +27,7 @@ export default class ActivityStore {
     get groupedActivities() {
         return Object.entries(
                 this.activitiesByDate.reduce((activities, activity) => {
-                    const date = activity.date;
+                    const date = format(activity.date!, 'dd MMM yyyy');
                     activities[date] = activities[date] ? [...activities[date], activity] : [activity];
                     return activities;
                 }, {} as {[key: string]: Activity[]})
@@ -59,7 +60,6 @@ export default class ActivityStore {
                 return activity;
             }
             catch (error) {
-                console.log(error);
                 this.setLoadingInitial(false);
             }
         }
@@ -75,13 +75,12 @@ export default class ActivityStore {
                 this.setLoadingInitial(false);                 
         }
         catch (error) {
-            console.log(error);
             this.setLoadingInitial(false);     
         }
     }
 
     private setActivity = (activity: Activity) => {
-        activity.date = activity.date.split('T')[0];
+        activity.date = new Date(activity.date!);
         this.activityRegistry.set(activity.id, activity);
     }
     setLoadingInitial = (state: boolean) => {
@@ -104,7 +103,6 @@ export default class ActivityStore {
             })
         }
         catch (error) {
-            console.log(error);
             runInAction(() => {
                 this.loading = false;
             })
@@ -124,7 +122,6 @@ export default class ActivityStore {
             })
         }
         catch (error) {
-            console.log(error);
             runInAction(() => {
                 this.loading = false;
             })
@@ -140,7 +137,6 @@ export default class ActivityStore {
             })
         }
         catch (error) {
-            console.log(error);
             runInAction(() => {
                 this.loading = false;
             })
