@@ -5,6 +5,7 @@ interface Props {
     placeholder: string;
     name: string;
     label?: string;
+    type?: string;
 }
 
 export default function MyTextInput(props: Props) {
@@ -13,7 +14,7 @@ export default function MyTextInput(props: Props) {
     return (
         <Form.Field error={meta.touched && !!meta.error}>
             <label>{label}</label>
-            <input {...field} placeholder={placeholder} />
+            <input {...field} {...props} />
             {meta.touched && meta.error ? (
                 <Label basic color='red'>{meta.error}</Label>
             ) : null}

@@ -69,8 +69,7 @@ export default observer(function ActivityForm() {
         validationSchema={validationSchema}
         >
         {({ handleSubmit, isValid, isSubmitting, dirty }) => (
-               <Form className="ui form"   onSubmit={handleSubmit}   autoComplete='off'>
-            
+               <Form className="ui form"   onSubmit={handleSubmit}   autoComplete='off'>          
                <MyTextInput  placeholder='Title' name="title" />
                <MyTextArea rows={3}  placeholder='Description'  name="description" />
                <MySelectInput options={categoryOptions}  placeholder='Category' name="category"    />

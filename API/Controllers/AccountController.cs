@@ -22,7 +22,7 @@ namespace API.Controllers
             _tokenService = tokenService;
         }
         [AllowAnonymous]
-        [HttpPost]
+        [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto logindto)
         {
             var user = await _userManager.FindByEmailAsync(logindto.Email);
@@ -49,18 +49,21 @@ namespace API.Controllers
         {
             if (await _userManager.Users.AnyAsync(x=> x.UserName == registerDto.Username))
             {
-                return BadRequest("Username alredy taken!");
+                ModelState.AddModelError("username", "Username is taken");
+                return ValidationProblem();
             }
 
             if (await _userManager.Users.AnyAsync(x => x.Email == registerDto.Email))
             {
-                return BadRequest("Email alredy taken!");
+                ModelState.AddModelError("email", "Email is taken");
+                return ValidationProblem();
             }
             var user = new AppUser
             {
                 DisplayName = registerDto.DisplayName,
                 Email = registerDto.Email,
-                UserName = registerDto.Username
+                UserName = registerDto.Username,
+                Bio = "New user"
             };
             var result = await _userManager.CreateAsync(user, registerDto.Password);
             if (result.Succeeded) return CreateUserObj(user);

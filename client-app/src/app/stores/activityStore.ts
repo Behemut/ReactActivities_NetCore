@@ -23,7 +23,6 @@ export default class ActivityStore {
         )
     }
 
-
     get groupedActivities() {
         return Object.entries(
                 this.activitiesByDate.reduce((activities, activity) => {
@@ -34,7 +33,6 @@ export default class ActivityStore {
             )
     }
 
-
     private getActivity = (id: string) => {
         return this.activityRegistry.get(id);
     }
@@ -44,8 +42,7 @@ export default class ActivityStore {
         if (activity) {
             this.selectedActivity = activity;    
             return activity
-        }
-               
+        }        
         else {
             this.setLoadingInitial(true);
             try {

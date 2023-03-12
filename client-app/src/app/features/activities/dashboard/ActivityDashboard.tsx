@@ -17,7 +17,6 @@ export default observer(function ActivityDashboard() {
   
     if(loadingInitial) return <LoadingComponent content='Loading App...' />
 
-
 return (
     <Grid>
         <Grid.Column width={10}>
