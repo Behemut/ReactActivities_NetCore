@@ -25,11 +25,11 @@ namespace API.Controllers
             if (result.IsSuccess && result.Value == null)
             {
                 return NotFound();
-            } 
+            }
             else
             {
                 return BadRequest(result.Error);
-                
+
             }
 
 

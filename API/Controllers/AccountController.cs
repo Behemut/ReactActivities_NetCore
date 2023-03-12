@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 namespace API.Controllers
 {
-  
+
     [ApiController]
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
@@ -45,9 +45,9 @@ namespace API.Controllers
         }
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<ActionResult<UserDto>> Register( RegisterDto registerDto)
+        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-            if (await _userManager.Users.AnyAsync(x=> x.UserName == registerDto.Username))
+            if (await _userManager.Users.AnyAsync(x => x.UserName == registerDto.Username))
             {
                 ModelState.AddModelError("username", "Username is taken");
                 return ValidationProblem();
@@ -67,8 +67,8 @@ namespace API.Controllers
             };
             var result = await _userManager.CreateAsync(user, registerDto.Password);
             if (result.Succeeded) return CreateUserObj(user);
-                 
-           return BadRequest(result.Errors);
+
+            return BadRequest(result.Errors);
         }
 
         [Authorize]

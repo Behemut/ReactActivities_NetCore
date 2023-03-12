@@ -7,6 +7,8 @@ using Application.Activities;
 using Application.Core;
 using FluentValidation.AspNetCore;
 using FluentValidation;
+using Application.Interfaces;
+using Infrastructure.Security;
 
 namespace API.Extensions
 {
@@ -38,7 +40,10 @@ namespace API.Extensions
             //Fluent Validation
             services.AddFluentValidationAutoValidation();
             services.AddValidatorsFromAssemblyContaining<CreateActivity>();
+            services.AddHttpContextAccessor();
 
+            services.AddScoped<IUserAccesor, UserAccessor>();
+        
             return services;
         }
     }
