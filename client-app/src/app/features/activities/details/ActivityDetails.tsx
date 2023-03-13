@@ -9,7 +9,6 @@ import ActivityDetailsInfo from './ActivityDetailsInfo';
 import ActivityDetailsChat from './ActivityDetailsChat';
 import ActivityDetailsSideBar from './ActivityDetailsSideBar';
 
-
 export default observer(function ActivityDetails() {
   const {activityStore} = useStore();
   const {selectedActivity: activity, loadActivity, loadingInitial} = activityStore
@@ -31,7 +30,7 @@ if (loadingInitial ||  !activity) return <LoadingComponent />
           <ActivityDetailsChat />
         </Grid.Column>
         <Grid.Column width={6}>
-          <ActivityDetailsSideBar/>
+          <ActivityDetailsSideBar activity={activity} />
         </Grid.Column>
       </Grid>
     )
