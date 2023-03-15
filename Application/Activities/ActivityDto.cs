@@ -1,9 +1,4 @@
 ﻿using Application.Profiles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Activities
 {
@@ -19,6 +14,6 @@ namespace Application.Activities
         public string HostUsername { get; set; }
 
         public bool IsCancelled { get; set; }
-        public ICollection<Profile> Attendees { get; set; }
+        public ICollection<AttendeDto> Attendees { get; set; }
     }
 }

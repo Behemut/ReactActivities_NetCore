@@ -1,14 +1,13 @@
-﻿using MediatR;
-using Persistence;
-using Domain;
-using Application;
-using Microsoft.EntityFrameworkCore;
-using Application.Activities;
+﻿using Application.Activities;
 using Application.Core;
-using FluentValidation.AspNetCore;
-using FluentValidation;
 using Application.Interfaces;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Infrastructure.Photos;
 using Infrastructure.Security;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Persistence;
 
 namespace API.Extensions
 {
@@ -20,7 +19,7 @@ namespace API.Extensions
         {
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
-            
+
             var connection = "Server=KELVIS\\DEVOPS;Database=dbActivities;User Id=devops;Password=Windows2020;TrustServerCertificate=True;MultipleActiveResultSets=True;";
 
             services.AddDbContext<DataContext>(options => options.UseSqlServer(connection));
@@ -33,7 +32,7 @@ namespace API.Extensions
                     policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("*");
                 });
             });
-           
+
             services.AddMediatR(typeof(ListActivity.Handler).Assembly);
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
@@ -41,9 +40,11 @@ namespace API.Extensions
             services.AddFluentValidationAutoValidation();
             services.AddValidatorsFromAssemblyContaining<CreateActivity>();
             services.AddHttpContextAccessor();
-
             services.AddScoped<IUserAccesor, UserAccessor>();
-        
+
+            services.AddScoped<IPhotoAccesor, PhotoAccesor>();
+            services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
+
             return services;
         }
     }

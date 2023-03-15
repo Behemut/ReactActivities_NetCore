@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Application.Core
+﻿namespace Application.Core
 {
     public class ResultApi<T>
     {
         public bool IsSuccess { get; set; }
 
-        public T Value  { get; set; }
+        public T Value { get; set; }
 
         public string Error { get; set; }
 

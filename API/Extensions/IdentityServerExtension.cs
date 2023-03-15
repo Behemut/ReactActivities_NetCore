@@ -37,7 +37,7 @@ namespace API.Extensions
                                 ValidateAudience = true,
                                 ClockSkew = TimeSpan.Zero,
                                 ValidAudience = "*",
-                                ValidIssuer ="*",
+                                ValidIssuer = "*",
                                 IssuerSigningKeys = new List<SecurityKey>
                                 {
                                     new SymmetricSecurityKey(Encoding.UTF8.GetBytes("super secret key"))
@@ -52,11 +52,11 @@ namespace API.Extensions
                 {
                     policy.Requirements.Add(new IsHostRequirement());
                 });
-                
+
             });
             services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
             services.AddScoped<TokenService>();
             return services;
-        }     
+        }
     }
 }

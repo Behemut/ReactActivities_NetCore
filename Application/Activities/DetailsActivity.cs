@@ -1,7 +1,6 @@
 ﻿using Application.Core;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -29,7 +28,7 @@ namespace Application.Activities
             {
                 var activity = await _context.Activities
                     .ProjectTo<ActivityDto>(_mapper.ConfigurationProvider)
-                    .FirstOrDefaultAsync(x => x.Id == request.Id);         
+                    .FirstOrDefaultAsync(x => x.Id == request.Id);
 
                 return ResultApi<ActivityDto>.Success(activity);
 

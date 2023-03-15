@@ -1,14 +1,9 @@
 ﻿using Domain;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Activities
 {
-    public class ValidateActivity  : AbstractValidator<Activity>
+    public class ValidateActivity : AbstractValidator<Activity>
     {
         public ValidateActivity()
         {
@@ -19,6 +14,5 @@ namespace Application.Activities
             RuleFor(x => x.City).NotEmpty();
             RuleFor(x => x.Venue).NotEmpty();
         }
-        
     }
 }
