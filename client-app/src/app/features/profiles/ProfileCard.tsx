@@ -19,7 +19,6 @@ export default observer (function ProfileCard({profile} : Props) {
             </Card.Content>   
             <Card.Content>
                 <Card.Meta extra><Icon name="user"/>0  Followers</Card.Meta>
-
             </Card.Content>
         </Card>
         )

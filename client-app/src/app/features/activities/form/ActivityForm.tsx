@@ -44,8 +44,7 @@ export default observer(function ActivityForm() {
         if(!activity.id){
             let newActivity = {
                 ...activity,
-                id: uuid()}
-        
+                id: uuid()}     
             createActivity(newActivity).then(() => navigate(`/activities/${activity.id}`))
         }
         else{

@@ -1,0 +1,54 @@
+import { makeAutoObservable, runInAction } from "mobx";
+import { Profile } from "../models/profile";
+import agent from "../api/agent";
+import { store } from "./store";
+
+export default class ProfileStore{
+    profile : Profile | null = null;
+    loadingProfile = false
+    uploading = false
+
+
+    constructor () {
+        makeAutoObservable(this)
+    }
+    get isCurrentUser() {
+        if(store.userStore.user && this.profile) {
+            return store.userStore.user.username === this.profile.username
+        }
+        return false
+    }
+    setProfile = (profile: Profile) => {
+        this.profile = profile;
+    }
+
+    loadProfile = async (username: string) => {
+        this.loadingProfile = true;
+        try {
+            const profile = await agent.Profiles.get(username);
+            this.setProfile(profile);
+            this.loadingProfile = false;
+        } catch (error) {
+            console.log(error);
+          runInAction(()=> this.loadingProfile = false )
+        }
+    }
+
+    uploadPhoto = async (file: Blob) => {
+        this.uploading = true;
+        try {
+            const response = await agent.Profiles.uploadPhoto(file);
+            const photo = response.data;
+            runInAction(()=> {
+            
+            
+            })
+        }
+        catch(error) {
+            console.log(error);
+            runInAction(()=> this.uploading = false)
+        }
+    }
+
+
+}

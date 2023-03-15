@@ -8,13 +8,11 @@ export interface Activity {
     date: Date | null
     city: string
     venue: string
-
     hostUsername: string
     isCancelled: boolean
     attendees: Profile []
     isGoing: boolean
     isHost: boolean
-
     host?: Profile
 }
 
@@ -32,7 +30,7 @@ export class ActivityFormValues {
     date?: Date | null = null
     city: string = ''
     venue: string = ''
-    
+       
     constructor(activity?: ActivityFormValues) {
         if (activity) {
             this.id = activity.id
