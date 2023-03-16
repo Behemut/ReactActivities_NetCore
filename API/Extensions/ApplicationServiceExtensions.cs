@@ -20,7 +20,8 @@ namespace API.Extensions
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            var connection = "Server=172.16.153.121\\DEVOPS;Database=dbActivities;User Id=kepleitez;Password=Pochit@2023;TrustServerCertificate=True;MultipleActiveResultSets=True;";
+            //var connection = "Server=172.16.153.121\\DEVOPS;Database=dbActivities;User Id=kepleitez;Password=Pochit@2023;TrustServerCertificate=True;MultipleActiveResultSets=True;";
+            var connection = "Server=KELVIS\\DEVOPS;Database=dbActivities;User Id=devops;Password=Windows2020;TrustServerCertificate=True;MultipleActiveResultSets=True;";
 
             services.AddDbContext<DataContext>(options => options.UseSqlServer(connection));
 

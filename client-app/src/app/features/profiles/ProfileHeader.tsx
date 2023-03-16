@@ -1,6 +1,5 @@
 import { observer } from "mobx-react-lite";
 import { Button, Divider, Grid, Header, Item, Reveal, Segment, Statistic } from "semantic-ui-react";
-import { useStore } from "../../stores/store";
 import { Profile } from "../../models/profile";
 
 interface Props {
