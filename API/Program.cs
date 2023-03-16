@@ -1,15 +1,12 @@
-using Application.Activities;
-using Microsoft.EntityFrameworkCore;
-using Persistence;
-using MediatR;
-using System.Reflection;
-using Application.Core;
 using API.Extensions;
 using API.Middleware;
-using Microsoft.AspNetCore.Identity;
+using API.SignalR;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +15,7 @@ builder.Services.AddControllers(options =>
     {
         var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
         options.Filters.Add(new AuthorizeFilter(policy));
-});
+    });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddApplicationServices(builder.Configuration);
@@ -38,8 +35,10 @@ if (app.Environment.IsDevelopment())
 app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
 app.UseAuthentication();
-app.UseAuthorization();
+app.UseAuthorization();  
 app.MapControllers();
+
+app.MapHub<ChatHub>("/chats");
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;

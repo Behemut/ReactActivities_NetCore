@@ -43,6 +43,20 @@ namespace API.Extensions
                                     new SymmetricSecurityKey(Encoding.UTF8.GetBytes("super secret key"))
                                 }
                             };
+                            options.Events = new JwtBearerEvents
+                            {
+                                OnMessageReceived = context =>
+                                {
+                                    var accessToken = context.Request.Headers["Authorization"];
+                                    var path = context.HttpContext.Request.Path;
+
+                                    if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/chat"))
+                                    {
+                                        context.Token = accessToken;
+                                    }
+                                    return Task.CompletedTask;
+                                }                            
+                            };
                         });
 
 

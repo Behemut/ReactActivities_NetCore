@@ -20,7 +20,7 @@ namespace API.Extensions
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            var connection = "Server=172.16.153.121\\DEVOPS;Database=dbActivities;User Id=kepleitez;Password=Pochit@2023;TrustServerCertificate=True;MultipleActiveResultSets=True;";
+            var connection = "Server= ;Database=dbActivities;User Id=kepleitez;Password=Pochit@2023;TrustServerCertificate=True;MultipleActiveResultSets=True;";
 
             services.AddDbContext<DataContext>(options => options.UseSqlServer(connection));
 
@@ -44,6 +44,9 @@ namespace API.Extensions
 
             services.AddScoped<IPhotoAccesor, PhotoAccesor>();
             services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
+
+
+            services.AddSignalR();
 
             return services;
         }

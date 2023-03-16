@@ -1,8 +1,25 @@
 import { observer } from 'mobx-react-lite'
-import React from 'react'
 import {Segment, Header, Comment, Form, Button} from 'semantic-ui-react'
+import { useStore } from '../../../stores/store'
+import { useEffect } from 'react'
+import CommentStore from '../../../stores/commentStore'
+import commentStore from '../../../stores/commentStore'
+import { Link } from 'react-router-dom'
 
-export default  observer(function ActivityDetailsChat() {
+interface Props {
+    activityId: string
+}
+
+
+
+export default  observer(function ActivityDetailsChat({activityId}: Props) {
+    const {commentStore :{createHubConnection, clearComments, comments}} = useStore()
+
+    useEffect (() => {
+        if (activityId)  createHubConnection(activityId)
+
+        return () => {clearComments()}
+    },[CommentStore, activityId])
 
     return (
         <>
@@ -17,34 +34,20 @@ export default  observer(function ActivityDetailsChat() {
             </Segment>
             <Segment attached>
                 <Comment.Group>
-                    <Comment>
-                        <Comment.Avatar src='/assets/user.png'/>
-                        <Comment.Content>
-                            <Comment.Author as='a'>Matt</Comment.Author>
-                            <Comment.Metadata>
-                                <div>Today at 5:42PM</div>
-                            </Comment.Metadata>
-                            <Comment.Text>How artistic!</Comment.Text>
-                            <Comment.Actions>
-                                <Comment.Action>Reply</Comment.Action>
-                            </Comment.Actions>
-                        </Comment.Content>
-                    </Comment>
 
-                    <Comment>
-                        <Comment.Avatar src='/assets/user.png'/>
-                        <Comment.Content>
-                            <Comment.Author as='a'>Joe Henderson</Comment.Author>
-                            <Comment.Metadata>
-                                <div>5 days ago</div>
-                            </Comment.Metadata>
-                            <Comment.Text>Dude, this is awesome. Thanks so much</Comment.Text>
-                            <Comment.Actions>
-                                <Comment.Action>Reply</Comment.Action>
-                            </Comment.Actions>
-                        </Comment.Content>
-                    </Comment>
-
+                    {comments?.map(comment => ( 
+                          <Comment key={comment.id}>
+                          <Comment.Avatar src={comment.image ||'/assets/user.png' } />
+                          <Comment.Content>
+                              <Comment.Author as='a'>{<Link to={`/profiles/${comment.username}`}>{comment.displayName}</Link>}</Comment.Author>
+                              <Comment.Metadata>
+                                  <div>Today at 5:42PM</div>
+                              </Comment.Metadata>
+                              <Comment.Text>{comment.body}</Comment.Text>       
+                          </Comment.Content>
+                      </Comment>
+                    ))}
+                
                     <Form reply>
                         <Form.TextArea/>
                         <Button
