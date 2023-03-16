@@ -100,8 +100,5 @@ const Profiles = {
     setMainPhoto: (id: string) => requests.post(`/photos/${id}/setMain`, {}),
 }
     
-
-
-
 const agent = { Activities, Account, Profiles };
 export default agent;

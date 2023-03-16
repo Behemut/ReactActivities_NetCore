@@ -1,5 +1,4 @@
-import { Container, Header, Message, Segment } from "semantic-ui-react";
-import { ServerError } from "../../models/ServerError";
+import { Container, Header,Segment } from "semantic-ui-react";
 import { useStore } from "../../stores/store";
 
 export default function ServerErrors(){
