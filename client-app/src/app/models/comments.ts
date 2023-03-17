@@ -1,7 +1,7 @@
-interface ChatComments {
+export interface ChatComments {
     id: string
     body : string
-    createdAt: Date
+    createdAt: Date 
     username: string
     displayName : string
     image : string

@@ -27,8 +27,6 @@ namespace Application.Core
                     .ForMember(d => d.Username, o => o.MapFrom(s => s.Author.UserName))
                     .ForMember(d => d.Image, o => o.MapFrom(s => s.Author.Photos.FirstOrDefault(x => x.IsMain).Url));
 
-
-
         }
 
     }

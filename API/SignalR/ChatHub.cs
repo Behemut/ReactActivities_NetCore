@@ -14,11 +14,10 @@ namespace API.SignalR
             _mediator = mediator;
         }
 
-        public async Task SendComment( CreateComment.Command command)
+        public async Task SendComment(CreateComment.Command command)
         {
             var comment = await _mediator.Send(command);
-            await Clients.Group(command.ActivityId.ToString())
-                .SendAsync("ReceiveComment", comment); 
+            await Clients.Group(command.ActivityId.ToString()).SendAsync("ReceiveComment", comment.Value); 
         }
 
         public override async Task OnConnectedAsync()
@@ -27,7 +26,7 @@ namespace API.SignalR
             //this is the endpoint for the Hub
             var activityId = httpContext.Request.Query["activityId"];
             await Groups.AddToGroupAsync(Context.ConnectionId, activityId);
-            var result = await _mediator.Send(new ListComments.Query { ActivityId = Guid.Parse(activityId) });
+            var result = await _mediator.Send(new ListComments.Query { ActivityId = Guid.Parse(activityId)});
             await Clients.Caller.SendAsync("LoadComments", result.Value);          
         }   
     }

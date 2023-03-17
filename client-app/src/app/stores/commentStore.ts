@@ -2,6 +2,7 @@ import { HubConnection, HubConnectionBuilder, LogLevel } from "@microsoft/signal
 import { makeAutoObservable, runInAction } from "mobx"
 import { store } from "./store"
 import { toast } from "react-toastify"
+import { ChatComments } from "../models/comments"
 
 
 export default class CommentStore {
@@ -17,30 +18,53 @@ export default class CommentStore {
     createHubConnection = (activityId : string) => {
         if (store.activityStore.selectedActivity){
             this.hubConnection = new HubConnectionBuilder()
-                .withUrl('https://localhost:7194/chat?activityId='  + activityId, {
-                        accessTokenFactory: () => store.userStore.user?.token!
+                .withUrl('https://localhost:7194/chats?activityId='  + activityId, {
+                        accessTokenFactory: () => store.userStore.user!.token
                  })
                 .withAutomaticReconnect()
-                //.configureLogging(store.commonStore.developmentMode ? 'debug' : 'error')
                 .configureLogging(LogLevel.Information)
                 .build()
 
-            this.hubConnection.start().catch(error => toast.error('Error establishing connection: ', error))
+            this.hubConnection.start().catch((error: string) => toast.error('Error establishing connection: ' + error))
+            
             this.hubConnection.on('LoadComments', (comments: ChatComments[]) => {
-                runInAction(() => this.comments = comments)
+                runInAction(() => {
+                        comments.forEach(comment => {
+                            comment.createdAt = new Date(comment.createdAt + 'Z')
+                        })
+                    this.comments = comments
+                })
             })
+
             this.hubConnection.on('ReceiveComment', (comment: ChatComments) => {
-                runInAction(() => this.comments.push(comment))
+                runInAction(() => {
+                    comment.id = comment.id
+                    comment.createdAt = new Date(comment.createdAt);
+                    this.comments.unshift(comment)
+                });
             })
         }
     }
 
     stopHubConnection = () => {
-        this.hubConnection?.stop().catch(error => toast.error('Error stopping connection: ', error))
+        this.hubConnection?.stop().catch((error: string) => toast.error('Error stopping connection: ' + error))
     }
 
     clearComments = () => {
         this.comments = []
         this.stopHubConnection()
     }
+
+    addComment = async (values: any) => {
+        values.activityId = store.activityStore.selectedActivity?.id
+        try {
+            await this.hubConnection?.invoke('SendComment', values)
+            
+        
+        } catch (error) {
+            toast.error('Problem sending comment: ' + error)
+        }
+    }
+
+
 }

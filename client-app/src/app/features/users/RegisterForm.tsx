@@ -12,7 +12,7 @@ const validationSchema =  Yup.object({
     email: Yup.string().required('The email is required'),
     password: Yup.string().required('The password is required')   
     .matches(
-        /^.*(?=.{6,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/,
         "Password must contain at least 6 characters, one uppercase, one number and one special case character"
     ),
     passwordConfirmation: Yup.string()

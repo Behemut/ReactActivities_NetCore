@@ -13,8 +13,8 @@ namespace Application.Comments
     {
         public class Command : IRequest<ResultApi<CommentDto>>
         {
-            public Guid ActivityId { get; set; }
             public string Body { get; set; }
+            public Guid ActivityId { get; set; }
         }
 
         //VALIDATION TO AVOID EMPYT BODY CONTENT
@@ -38,15 +38,9 @@ namespace Application.Comments
                 _mapper = mapper;
             }
 
-            public DataContext Context { get; }
-            public IMapper Mapper { get; }
-
             public async Task<ResultApi<CommentDto>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var activity = await _context.Activities.FindAsync(request.ActivityId);
-
-                if (activity == null) return null;
-
                 var user = await _context.Users
                     .Include(x => x.Photos)
                     .SingleOrDefaultAsync(x => x.UserName == _userAccesor.GetUsername());
