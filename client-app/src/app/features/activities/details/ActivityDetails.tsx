@@ -17,7 +17,7 @@ export default observer(function ActivityDetails() {
   useEffect(() => {
     if (id) loadActivity(id)
     return () => activityStore.clearSelectedActivity()
-  }, [id, loadActivity])
+  }, [id, loadActivity, activityStore])
 
 
 

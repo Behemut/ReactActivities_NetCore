@@ -38,7 +38,7 @@ export default class CommentStore {
 
             this.hubConnection.on('ReceiveComment', (comment: ChatComments) => {
                 runInAction(() => {
-                    comment.id = comment.id
+                   
                     comment.createdAt = new Date(comment.createdAt);
                     this.comments.unshift(comment)
                 });

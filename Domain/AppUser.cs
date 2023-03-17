@@ -8,7 +8,9 @@ namespace Domain
         public string Bio { get; set; }
         public ICollection<ActivityAttendee> Activities { get; set; }
         public ICollection<Photo> Photos { get; set; }
-      //  public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        public ICollection<UserFollowing> Followers { get; set; }
+        public ICollection<UserFollowing> Followings { get; set; }
+
     }
 
 }

@@ -6,7 +6,6 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-
 namespace Application.Comments
 {
     public class ListComments
