@@ -18,6 +18,9 @@ builder.Services.AddControllers(options =>
     });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+
+
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
 
@@ -35,7 +38,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
 app.UseAuthentication();
-app.UseAuthorization();  
+app.UseAuthorization();
 app.MapControllers();
 
 app.MapHub<ChatHub>("/chats");

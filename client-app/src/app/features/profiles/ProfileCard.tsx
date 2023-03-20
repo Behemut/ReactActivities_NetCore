@@ -7,7 +7,6 @@ interface Props {
     profile : Profile
 }
 
-
 export default observer (function ProfileCard({profile} : Props) {
 
     function truncate (str : string | undefined){
@@ -15,7 +14,6 @@ export default observer (function ProfileCard({profile} : Props) {
             return   str.length > 40 ? str.substring(0, 37) + '...' : str;
         }
     }
-
 
         return (
         <Card as = {Link} to={`/profiles/${profile.username}`}>

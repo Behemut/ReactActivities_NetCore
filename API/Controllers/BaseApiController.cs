@@ -1,4 +1,5 @@
-﻿using Application.Core;
+﻿using API.Extensions;
+using Application.Core;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +11,7 @@ namespace API.Controllers
     public class BaseApiController : ControllerBase
     {
         private IMediator _mediator;
+
         protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
 
         protected ActionResult HandleResult<T>(ResultApi<T> result)
@@ -31,8 +33,34 @@ namespace API.Controllers
                 return BadRequest(result.Error);
 
             }
-
-
         }
+
+        protected ActionResult HandlePageResult<T>(ResultApi<PagedList<T>> result)
+        {
+            if (result == null)
+            {
+                return NotFound();
+            }
+            if (result.IsSuccess && result.Value != null)
+            {
+                Response.AddPaginationHeader(result.Value.CurrentPage, result.Value.PageSize,
+                                             result.Value.TotalCount, result.Value.TotalPages);
+                return Ok(result.Value);
+            
+            }
+            if (result.IsSuccess && result.Value == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return BadRequest(result.Error);
+
+            }
+        }
+
+
+
+
     }
 }
