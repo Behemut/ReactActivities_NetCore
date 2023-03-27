@@ -29,7 +29,7 @@ function App() {
     <>
     <ModalContainer />
     <ToastContainer position='bottom-right'  hideProgressBar theme='colored' />
-     {location.pathname === '/' ? <HomePage /> : (
+     {location.pathname === `${process.env.REACT_APP_ROUTING}` ? <HomePage /> : (
       <>
       <Navbar  />
       <Container style={{marginTop: '7em'}}>

@@ -10,7 +10,7 @@ import ProfilePage from "../features/profiles/ProfilePage";
 
 export const routes:  RouteObject[] = [
     {
-        path: "/",
+        path: `${process.env.REACT_APP_ROUTING}`,
         element: <App/>,
         children: [
             {path: "activities",element: <ActivityDashboard/> },

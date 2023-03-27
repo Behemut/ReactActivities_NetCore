@@ -18,7 +18,7 @@ export default class UserStore {
             const user= await agent.Account.login(creds)
             store.commonStore.setToken(user.token)
             runInAction(() => this.user = user)
-            router.navigate('/activities')
+            router.navigate(`${process.env.REACT_APP_ROUTING}activities`)
             store.modalStore.closeModal()
         }
         catch(error){
@@ -31,7 +31,7 @@ export default class UserStore {
             const user = await agent.Account.register(creds)
             store.commonStore.setToken(user.token)
             runInAction(() => this.user = user)
-            router.navigate('/activities')
+            router.navigate(`${process.env.REACT_APP_ROUTING}activities`)
             store.modalStore.closeModal()
         }
         catch(error){
@@ -42,7 +42,7 @@ export default class UserStore {
     logout = () => {
         store.commonStore.setToken(null);
         this.user = null;
-        router.navigate('/');
+        router.navigate(`${process.env.REACT_APP_ROUTING}`);
     }
 
     getUser = async () => {

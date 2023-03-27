@@ -28,21 +28,29 @@ var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
 
+#if RELEASE
+app.Environment.EnvironmentName = "Production";
+#endif
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 
 app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.MapControllers();
-
 app.MapHub<ChatHub>("/chats");
-
+app.MapFallbackToController("Index", "Fallback");
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 
