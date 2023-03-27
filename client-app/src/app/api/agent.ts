@@ -12,7 +12,7 @@ const sleep = (delay: number) => {
     })
 }
 
-axios.defaults.baseURL = 'https://localhost:7194/api';
+axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 const responseBody = <T> (response: AxiosResponse<T>) => response.data;
 
 axios.interceptors.request.use(config => {

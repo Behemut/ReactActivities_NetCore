@@ -18,7 +18,7 @@ export default class CommentStore {
     createHubConnection = (activityId : string) => {
         if (store.activityStore.selectedActivity){
             this.hubConnection = new HubConnectionBuilder()
-                .withUrl('https://localhost:7194/chats?activityId='  + activityId, {
+                .withUrl(`${process.env.REACT_APP_SOCKET_URL}?activityId=`  + activityId, {
                         accessTokenFactory: () => store.userStore.user!.token
                  })
                 .withAutomaticReconnect()
