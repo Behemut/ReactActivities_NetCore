@@ -87,6 +87,10 @@ const Account = {
     register: (user: UserFormValues) => requests.post<User>('/account/register', user)
 }
 
+const Products = {
+    get : () => requests.get<any[]>('https://dummyjson.com/products') 
+}
+
 const Profiles = {
     get: (username: string) => requests.get<Profile>(`/profile/${username}`),
     uploadPhoto: (file: Blob) => {
@@ -104,5 +108,5 @@ const Profiles = {
                     requests.get<Profile[]>(`/following/${username}?predicate=${predicate}`),
 }
     
-const agent = { Activities, Account, Profiles };
+const agent = { Activities, Account, Profiles, Products };
 export default agent;
