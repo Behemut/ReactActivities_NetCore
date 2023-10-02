@@ -6,7 +6,8 @@ import ActivityListItem from "./ActivityListItem";
 import * as XLSX from 'xlsx';
 import { Activity } from "../../../models/activity";
 import agent from "../../../api/agent";
-import { set } from "date-fns";
+import { format } from "date-fns";
+
 
 
 export default observer( function ActivityList() {
@@ -16,31 +17,8 @@ export default observer( function ActivityList() {
     const [loading, setLoading] = useState(false);
  
     const exportToExcel = async () => {
-        // const data = groupedActivities.flatMap(([group, activities]) =>
-        //     activities.map((activity) => ({
-        //         Title: activity.title,
-        //         Date: activity.date,
-        //         Category: activity.category,
-        //         City: activity.city,
-        //         Venue: activity.venue,
-        //         Inventado : activity.title + " " + activity.date + " " + activity.category + " " + activity.city + " " + activity.venue
-        //     })) 
-        // );
-
-            // const data = activitiesList.flatMap((activity) =>
-            //     ({
-            //         Title: activity.title,
-            //         Date: activity.date,
-            //         Category: activity.category,
-            //         City: activity.city,
-            //         Venue: activity.venue,
-            //         Inventado : activity.title + " " + activity.date + " " + activity.category + " " + activity.city + " " + activity.venue
-            //     }) 
-            // );
             setLoading(true);
             const result = await agent.Products.get()  
-            
-
             const data = result.products.flatMap((product: any ) =>
             ({
                 Title: product.title,
@@ -49,16 +27,24 @@ export default observer( function ActivityList() {
                 Description: product.description,
                 Rating: product.rating,
             }))
-            
+            const formatTime = "MM-dd-yyyy"
 
-            const fileName = `excel_report_${new Date().getTime()}.xlsx`;
+            const fileName = `excel_report_${format(new Date(), formatTime)}.xlsx` // name of the excel sheet
             const ws = XLSX.utils.json_to_sheet(data);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "Report");
-
+            ws['!autofilter'] = { ref: `A1:C${data.length + 1}` }; // Set the range
+            ws['!cols'] = [
+              { width: 5 }, // Adjust column widths as needed
+              { width: 15 },
+              { width: 15 },
+            ];
             XLSX.writeFile(wb, fileName);
             setLoading(false);
         }
+
+
+
 
 
     return (
